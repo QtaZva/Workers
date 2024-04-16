@@ -30,7 +30,6 @@ namespace Workers
         {
             WindowEmployee wEmployee = new WindowEmployee();
             wEmployee.Show();
-
         }
 
         private void Role_OnClick(object sender, RoutedEventArgs e)

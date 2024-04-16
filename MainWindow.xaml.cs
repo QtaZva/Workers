@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Workers.View;
 
 namespace Workers
 {
@@ -23,6 +24,19 @@ namespace Workers
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Employee_OnClick(object sender, RoutedEventArgs e)
+        {
+            WindowEmployee wEmployee = new WindowEmployee();
+            wEmployee.Show();
+
+        }
+
+        private void Role_OnClick(object sender, RoutedEventArgs e)
+        {
+            WindowRole wRole = new WindowRole();
+            wRole.Show();
         }
     }
 }

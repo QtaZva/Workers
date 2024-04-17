@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Workers.ViewModel;
 
 namespace Workers.View
 {
@@ -22,6 +23,8 @@ namespace Workers.View
         public WindowRole()
         {
             InitializeComponent();
+            RoleViewModel vmRole = new RoleViewModel();
+            lvRole.ItemsSource = vmRole.ListRole;
         }
     }
 }

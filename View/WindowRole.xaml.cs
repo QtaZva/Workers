@@ -51,7 +51,20 @@ namespace Workers.View
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            Role role = (Role)lvRole.SelectedItem;
+            if (role != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Удалить данные по должности: " + role.NameRole, "Предупреждение", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.OK)
+                {
+                    vmRole.ListRole.Remove(role);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать должность для удаления",
+                "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)

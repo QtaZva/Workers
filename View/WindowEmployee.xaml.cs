@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Workers.Helper;
+using Workers.Model;
+using Workers.ViewModel;
 
 namespace Workers.View
 {
@@ -22,6 +26,29 @@ namespace Workers.View
         public WindowEmployee()
         {
             InitializeComponent();
+            PersonViewModel vmPerson = new PersonViewModel();
+            RoleViewModel vmRole = new RoleViewModel();
+            List<Role> roles = new List<Role>();
+            foreach (Role r in vmRole.ListRole)
+            {
+                roles.Add(r);
+            }
+            ObservableCollection<PersonDPO> persons = new ObservableCollection<PersonDPO>();
+            FindRole finder;
+            foreach (var p in vmPerson.ListPerson)
+            {
+                finder = new FindRole(p.RoleId);
+                Role rol = roles.Find(new Predicate<Role>(finder.RolePredicate));
+                persons.Add(new PersonDPO
+                {
+                    Id = p.Id,
+                    Role = rol.NameRole,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    Birthday = p.Birthday
+                });
+            }
+            lvEmployee.ItemsSource = persons;
         }
     }
 }

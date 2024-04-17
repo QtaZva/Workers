@@ -26,5 +26,20 @@ namespace Workers.View
             RoleViewModel vmRole = new RoleViewModel();
             lvRole.ItemsSource = vmRole.ListRole;
         }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -23,5 +23,11 @@ namespace Workers.View
         {
             InitializeComponent();
         }
+
+        private void BtSave_Click(object sender, RoutedEventArgs e)
+        {
+
+            DialogResult = true;
+        }
     }
 }

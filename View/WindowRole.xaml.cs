@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Workers.Model;
 using Workers.ViewModel;
 
 namespace Workers.View
@@ -20,16 +21,31 @@ namespace Workers.View
     /// </summary>
     public partial class WindowRole : Window
     {
+        RoleViewModel vmRole = new RoleViewModel();
         public WindowRole()
         {
             InitializeComponent();
-            RoleViewModel vmRole = new RoleViewModel();
             lvRole.ItemsSource = vmRole.ListRole;
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-
+            WindowNewRole wnRole = new WindowNewRole
+            {
+                Title = "Новая должность",
+                Owner = this
+            };
+            // формирование кода новой должности
+            int maxIdRole = vmRole.MaxId() + 1;
+            Role role = new Role
+            {
+                Id = maxIdRole
+            };
+            wnRole.DataContext = role;
+            if (wnRole.ShowDialog() == true)
+            {
+                vmRole.ListRole.Add(role);
+            }
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)

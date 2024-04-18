@@ -114,7 +114,27 @@ namespace Workers.View
         }
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            PersonDPO person = (PersonDPO)lvEmployee.SelectedItem;
+            if (person != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Удалить данные по сотруднику: \n" + person.LastName +" "+person.FirstName,
+                "Предупреждение", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.OK)
+                {
+                    // удаление данных в списке отображения данных
+                    personsDPO.Remove(person);
+                    // удаление данных в списке классов ListPerson<Person>
+                    Person per = new Person();
+                    per = per.CopyFromPersonDPO(person);
+                    vmPerson.ListPerson.Remove(per);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать данные по сотруднику для удаления",
+               
+                "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }

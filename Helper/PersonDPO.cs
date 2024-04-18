@@ -48,6 +48,10 @@ namespace Workers.Helper
             }
             return perDPO;
         }
+        public PersonDPO ShallowCopy()
+        {
+            return (PersonDPO)this.MemberwiseClone();
+        }
 
     }
 }

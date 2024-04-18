@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\FindPerson.cs" />
     <Compile Include="Helper\FindRole.cs" />
     <Compile Include="Helper\PersonDPO.cs" />
     <Compile Include="ViewModel\PersonViewModel.cs" />

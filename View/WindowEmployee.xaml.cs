@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,6 +16,7 @@ using System.Windows.Shapes;
 using Workers.Helper;
 using Workers.Model;
 using Workers.ViewModel;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Workers.View
 {
@@ -73,6 +75,41 @@ namespace Workers.View
         }
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
+            WindowNewEmployee wnEmployee = new WindowNewEmployee
+            {
+                Title = "Редактирование данных",
+                Owner = this
+            };
+            PersonDPO perDPO = (PersonDPO)lvEmployee.SelectedValue;
+            PersonDPO tempPerDPO; // временный класс для редактирования
+            if (perDPO != null)
+            {
+                tempPerDPO = perDPO.ShallowCopy();
+                wnEmployee.DataContext = tempPerDPO;
+                wnEmployee.CbRole.ItemsSource = roles;
+                wnEmployee.CbRole.Text = tempPerDPO.Role;
+                if (wnEmployee.ShowDialog() == true)
+                {
+                    // перенос данных из временного класса в класс отображения данных
+                     Role r = (Role)wnEmployee.CbRole.SelectedValue;
+                    perDPO.Role = r.NameRole;
+                    perDPO.FirstName = tempPerDPO.FirstName;
+                    perDPO.LastName = tempPerDPO.LastName;
+                    perDPO.Birthday = tempPerDPO.Birthday;
+                    lvEmployee.ItemsSource = null;
+                    lvEmployee.ItemsSource = personsDPO;
+                // перенос данных из класса отображения данных в класс Person
+                    FindPerson finder = new FindPerson(perDPO.Id);
+                    List<Person> listPerson = vmPerson.ListPerson.ToList();
+                    Person p = listPerson.Find(new Predicate<Person>(finder.PersonPredicate));
+                    p = p.CopyFromPersonDPO(perDPO);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать сотрудника для редактированния",
+                "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
 
         }
         private void btnDelete_Click(object sender, RoutedEventArgs e)

@@ -51,5 +51,17 @@ namespace Workers.ViewModel
                 Birthday = new DateTime(1983, 05, 10)
             });
         }
+        public int MaxId()
+        {
+            int max = 0;
+            foreach (var r in this.ListPerson)
+            {
+                if (max < r.Id)
+                {
+                    max = r.Id;
+                };
+            }
+            return max;
+        }
     }
 }

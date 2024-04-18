@@ -28,7 +28,6 @@ namespace Workers.View
             InitializeComponent();
             lvRole.ItemsSource = vmRole.ListRole;
         }
-
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             WindowNewRole wnRole = new WindowNewRole
@@ -48,7 +47,6 @@ namespace Workers.View
                 vmRole.ListRole.Add(role);
             }
         }
-
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             Role role = (Role)lvRole.SelectedItem;
@@ -66,7 +64,6 @@ namespace Workers.View
                 "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             WindowNewRole wnRole = new WindowNewRole

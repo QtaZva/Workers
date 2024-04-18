@@ -23,32 +23,61 @@ namespace Workers.View
     /// </summary>
     public partial class WindowEmployee : Window
     {
+        private PersonViewModel vmPerson = new PersonViewModel();
+        private RoleViewModel vmRole;
+        private ObservableCollection<PersonDPO> personsDPO;
+        private List<Role> roles;
         public WindowEmployee()
         {
             InitializeComponent();
-            PersonViewModel vmPerson = new PersonViewModel();
-            RoleViewModel vmRole = new RoleViewModel();
-            List<Role> roles = new List<Role>();
-            foreach (Role r in vmRole.ListRole)
+            vmPerson = new PersonViewModel();
+            vmRole = new RoleViewModel();
+            roles = vmRole.ListRole.ToList();
+            // Формирование данных для отображения сотрудников с должностями
+            // на базе коллекции класса ListPerson<Person> 
+            personsDPO = new ObservableCollection<PersonDPO>();
+            foreach (var person in vmPerson.ListPerson)
             {
-                roles.Add(r);
+                PersonDPO p = new PersonDPO();
+                p = p.CopyFromPerson(person);
+                personsDPO.Add(p);
             }
-            ObservableCollection<PersonDPO> persons = new ObservableCollection<PersonDPO>();
-            FindRole finder;
-            foreach (var p in vmPerson.ListPerson)
+            lvEmployee.ItemsSource = personsDPO;
+        }
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            WindowNewEmployee wnEmployee = new WindowNewEmployee
             {
-                finder = new FindRole(p.RoleId);
-                Role rol = roles.Find(new Predicate<Role>(finder.RolePredicate));
-                persons.Add(new PersonDPO
-                {
-                    Id = p.Id,
-                    Role = rol.NameRole,
-                    FirstName = p.FirstName,
-                    LastName = p.LastName,
-                    Birthday = p.Birthday
-                });
+                Title = "Новый сотрудник",
+                Owner = this
+            };
+            // формирование кода нового собрудника
+            int maxIdPerson = vmPerson.MaxId() + 1;
+            PersonDPO per = new PersonDPO
+            {
+                Id = maxIdPerson,
+                Birthday = DateTime.Now
+            };
+            wnEmployee.DataContext = per;
+            wnEmployee.CbRole.ItemsSource = roles;
+            if (wnEmployee.ShowDialog() == true)
+            {
+                Role r = (Role)wnEmployee.CbRole.SelectedValue;
+                per.Role = r.NameRole;
+                personsDPO.Add(per);
+                // добавление нового сотрудника в коллекцию ListPerson<Person> 
+                Person p = new Person();
+                p = p.CopyFromPersonDPO(per);
+                vmPerson.ListPerson.Add(p);
             }
-            lvEmployee.ItemsSource = persons;
+        }
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

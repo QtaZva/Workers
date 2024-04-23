@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Workers.ViewModel;
 
 namespace Workers.View
 {
@@ -22,6 +23,7 @@ namespace Workers.View
         public WindowNewEmployee()
         {
             InitializeComponent();
+            CbRole.ItemsSource = new RoleViewModel().ListRole;
         }
 
         private void BtSave_Click(object sender, RoutedEventArgs e)

@@ -13,6 +13,9 @@ namespace Workers.Helper
 {
     public class PersonDpo : INotifyPropertyChanged
     {
+        /// <summary>
+        /// код сотрудника
+        /// </summary>
         public int Id { get; set; }
         /// <summary>
         /// должность сотрудника
@@ -85,7 +88,11 @@ namespace Workers.Helper
             this.LastName = lastName;
             this.Birthday = birthday;
         }
-        public PersonDpo ShallowCopy()
+ /// <summary>
+ /// Метод поверхностного копирования 
+ /// </summary>
+ /// <returns></returns>
+ public PersonDpo ShallowCopy()
         {
             return (PersonDpo)this.MemberwiseClone();
         }
@@ -124,4 +131,5 @@ string propertyName = "")
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
 }

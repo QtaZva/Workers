@@ -12,7 +12,7 @@
             <Button Margin="10,10,5,10" Content="Редактировать" Height="25" Command="{Binding EditPerson}"/>
             <Button Content="Удалить" Height="25" Margin="10,10,5,10" Command="{Binding DeletePerson}"/>
         </StackPanel>
-        <ListView x:Name="lvEmployee">
+        <ListView x:Name="lvEmployee" ItemsSource="{Binding ListPerson}">
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
@@ -23,7 +23,7 @@
                         <GridViewColumn Header="Имя" 
                                         DisplayMemberBinding="{Binding FirstName}"/>
                         <GridViewColumn Header="Должность" Width="100"
-                                        DisplayMemberBinding="{Binding Role}"/>
+                                        DisplayMemberBinding="{Binding RoleName}"/>
                         <GridViewColumn Header="Дата рождения" 
                                         DisplayMemberBinding="{Binding Birthday,  StringFormat={}{0:dd\.}{0:MM\.}{0:yyyy}}"/>
                     </GridView.Columns>

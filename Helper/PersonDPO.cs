@@ -7,36 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Workers.Model;
 using Workers.ViewModel;
+using Workers.Helper;
 
 namespace Workers.Helper
 {
     public class PersonDpo : INotifyPropertyChanged
     {
-        public PersonDpo CopyFromPerson(Person person)
-        {
-            PersonDpo perDpo = new PersonDpo();
-            RoleViewModel vmRole = new RoleViewModel();
-            string role = string.Empty;
-            foreach (var r in vmRole.ListRole)
-            {
-                if (r.Id == person.RoleId)
-                {
-                    role = r.NameRole;
-                    break;
-                }
-            }
-            if (role != string.Empty)
-            {
-                perDpo.Id = person.Id;
-                perDpo.RoleName = role;
-                perDpo.FirstName = person.FirstName;
-                perDpo.LastName = person.LastName;
-                perDpo.Birthday = person.Birthday;
-            }
-            return perDpo;
-        }
         public int Id { get; set; }
+        /// <summary>
+        /// должность сотрудника
+        /// </summary>
         private string _roleName;
+        /// <summary>
+        /// должность сотрудника
+        /// </summary>
         public string RoleName
         {
             get { return _roleName; }
@@ -46,6 +30,9 @@ namespace Workers.Helper
                 OnPropertyChanged("RoleName");
             }
         }
+        /// <summary>
+        /// имя сотрудника
+        /// </summary>
         private string firstName;
         public string FirstName
         {
@@ -56,7 +43,13 @@ namespace Workers.Helper
                 OnPropertyChanged("FirstName");
             }
         }
+        /// <summary>
+        /// фамилия сотрудника
+        /// </summary>
         private string lastName;
+        /// <summary>
+        /// фамилия сотрудника
+        /// </summary>
         public string LastName
         {
             get { return lastName; }
@@ -66,7 +59,13 @@ namespace Workers.Helper
                 OnPropertyChanged("LastName");
             }
         }
+        /// <summary>
+        /// дата рождения сотрудника
+        /// </summary>
         private DateTime birthday;
+        /// <summary>
+        /// дата рождения сотрудника
+        /// </summary>
         public DateTime Birthday
         {
             get { return birthday; }
@@ -90,14 +89,39 @@ namespace Workers.Helper
         {
             return (PersonDpo)this.MemberwiseClone();
         }
-        
+        /// <summary>
+        /// копирование данных из класса Person
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns></returns>
+        public PersonDpo CopyFromPerson(Person person)
+        {
+            PersonDpo perDpo = new PersonDpo();
+            RoleViewModel vmRole = new RoleViewModel();
+            string role = string.Empty;
+            foreach (var r in vmRole.ListRole)
+            {
+                if (r.Id == person.RoleId)
+                {
+                    role = r.NameRole;
+                    break;
+                }
+            }
+            if (role != string.Empty)
+            {
+                perDpo.Id = person.Id;
+                perDpo.RoleName = role;
+                perDpo.FirstName = person.FirstName;
+                perDpo.LastName = person.LastName;
+                perDpo.Birthday = person.Birthday;
+            }
+            return perDpo;
+        }
         public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")
+        protected virtual void OnPropertyChanged([CallerMemberName]
+string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
     }
 }
-

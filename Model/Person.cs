@@ -8,7 +8,7 @@ using Workers.ViewModel;
 
 namespace Workers.Model
 {
-    internal class Person
+    public class Person
     {
         public int Id { get; set; }
         public int RoleId { get; set; }
@@ -25,13 +25,13 @@ namespace Workers.Model
             this.LastName = lastName;
             this.Birthday = birthday;
         }
-        public Person CopyFromPersonDPO(PersonDPO p)
+        public Person CopyFromPersonDpo(PersonDpo p)
         {
             RoleViewModel vmRole = new RoleViewModel();
             int roleId = 0;
             foreach (var r in vmRole.ListRole)
             {
-                if (r.NameRole == p.Role)
+                if (r.NameRole == p.RoleName)
                 {
                     roleId = r.Id;
                     break;

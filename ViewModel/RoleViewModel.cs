@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -11,10 +13,42 @@ using Workers.Helper;
 using Workers.Model;
 using Workers.View;
 
+
 namespace Workers.ViewModel
 {
     public class RoleViewModel : INotifyPropertyChanged
     {
+        readonly string path = @"C:\Users\Alex\source\Project\WpfApplDemo2018_Json\WpfApplDemo2018\DataModels\ RoleData.json";
+        string _jsonRoles = String.Empty;
+        public string Error { get; set; }
+        public ObservableCollection<Role> LoadRole()
+        {
+            _jsonRoles = File.ReadAllText(path);
+            if (_jsonRoles != null)
+            {
+                ListRole = JsonConvert.DeserializeObject < ObservableCollection < Role >> (_jsonRoles);
+                return ListRole;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        private void SaveChanges(ObservableCollection<Role> listRole)
+        {
+            var jsonRole = JsonConvert.SerializeObject(listRole);
+            try
+            {
+                using (StreamWriter writer = File.CreateText(path))
+                {
+                    writer.Write(jsonRole);
+                }
+            }
+            catch (IOException e)
+            {
+                Error = "Ошибка записи json файла /n" + e.Message;
+            }
+        }
         private Role selectedRole;
         public Role SelectedRole
         {
@@ -85,6 +119,7 @@ namespace Workers.ViewModel
                     if (wnRole.ShowDialog() == true)
                     {
                         ListRole.Add(role);
+                        SaveChanges(ListRole);
                     }
                     SelectedRole = role;
                 }));
@@ -108,6 +143,7 @@ namespace Workers.ViewModel
                     {
                         // сохранение данных в оперативной памяти
                         role.NameRole = tempRole.NameRole;
+                        SaveChanges(ListRole);
                     }
                 }, (obj) => SelectedRole != null && ListRole.Count > 0));
             }
@@ -125,6 +161,7 @@ namespace Workers.ViewModel
                     if (result == MessageBoxResult.OK)
                     {
                         ListRole.Remove(role);
+                        SaveChanges(ListRole);
                     }
                 }, (obj) => SelectedRole != null && ListRole.Count > 0));
             }

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -16,6 +18,38 @@ namespace Workers.ViewModel
 {
     public class PersonViewModel : INotifyPropertyChanged
     {
+        readonly string path = @"C:\Users\Alex\source\Project\WpfApplDemo2018_Json\WpfApplDemo2018\DataModels\ Person.json";
+        string _jsonPersons = String.Empty;
+        public string Error { get; set; }
+        public ObservableCollection<Person> LoadPerson()
+        {
+            _jsonPersons = File.ReadAllText(path);
+            if (_jsonPersons != null)
+            {
+                ListPerson = JsonConvert.DeserializeObject<ObservableCollection<Person>>(_jsonPersons);
+                return ListPerson;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        private void SaveChanges(ObservableCollection<Person> listPersons)
+        {
+            var jsonPerson = JsonConvert.SerializeObject(listPersons);
+            try
+            {
+                using (StreamWriter writer = File.CreateText(path))
+                {
+                    writer.Write(jsonPerson);
+                }
+            }
+            catch (IOException e)
+            {
+                Error = "Ошибка записи json файла /n" + e.Message;
+            }
+        }
+
         private PersonDpo selectedPersonDpo;
         /// <summary>
         /// выделенные в списке данные по сотруднику 
@@ -140,6 +174,7 @@ namespace Workers.ViewModel
                         Person p = new Person();
                         p = p.CopyFromPersonDpo(per);
                         ListPerson.Add(p);
+                        SaveChanges(ListPerson);
                     }
                 }, (obj) => true));
             }
@@ -177,9 +212,10 @@ namespace Workers.ViewModel
                     personDpo.Birthday = tempPerson.Birthday;
                     // перенос данных из класса отображения данных в класс Person
                     FindPerson finder = new FindPerson(personDpo.Id);
-                        List<Person> listPerson = ListPerson.ToList();
-                        Person p = listPerson.Find(new Predicate<Person>(finder.PersonPredicate));
-                        p = p.CopyFromPersonDpo(personDpo);
+                    List<Person> listPerson = ListPerson.ToList();
+                    Person p = listPerson.Find(new Predicate<Person>(finder.PersonPredicate));
+                    p = p.CopyFromPersonDpo(personDpo);
+                    SaveChanges(ListPerson);
                     }
                 }, (obj) => SelectedPersonDpo != null && ListPersonDpo.Count > 0));
             }
@@ -205,6 +241,7 @@ namespace Workers.ViewModel
                         Person per = new Person();
                         per = per.CopyFromPersonDpo(person);
                         ListPerson.Remove(per);
+                        SaveChanges(ListPerson);
                     }
                 }, (obj) => SelectedPersonDpo != null && ListPersonDpo.Count > 0));
             }

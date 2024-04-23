@@ -21,3 +21,5 @@ C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСР�
 C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\obj\Debug\View\WindowNewRole.baml
 C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\obj\Debug\View\WindowNewEmployee.g.cs
 C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\obj\Debug\View\WindowNewEmployee.baml
+C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\obj\Debug\Dictionary.baml
+C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\obj\Debug\App.baml

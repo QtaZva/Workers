@@ -137,7 +137,6 @@ namespace Workers.ViewModel
                         Role r = (Role)wnPerson.CbRole.SelectedValue;
                         per.RoleName = r.NameRole;
                         ListPersonDpo.Add(per);
-                        // добавление нового сотрудника в коллекцию ListPerson<Person> 
                         Person p = new Person();
                         p = p.CopyFromPersonDpo(per);
                         ListPerson.Add(p);

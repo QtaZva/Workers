@@ -23,3 +23,15 @@ C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСР�
 C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\obj\Debug\View\WindowNewEmployee.baml
 C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\obj\Debug\Dictionary.baml
 C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\obj\Debug\App.baml
+N:\github\Workers\obj\Debug\Workers.csproj.AssemblyReference.cache
+N:\github\Workers\obj\Debug\Dictionary.baml
+N:\github\Workers\obj\Debug\MainWindow.g.cs
+N:\github\Workers\obj\Debug\View\WindowEmployee.g.cs
+N:\github\Workers\obj\Debug\View\WindowNewEmployee.g.cs
+N:\github\Workers\obj\Debug\View\WindowNewRole.g.cs
+N:\github\Workers\obj\Debug\View\WindowRole.g.cs
+N:\github\Workers\obj\Debug\App.g.cs
+N:\github\Workers\obj\Debug\Workers_MarkupCompile.cache
+N:\github\Workers\obj\Debug\Workers_MarkupCompile.lref
+N:\github\Workers\obj\Debug\Workers.exe
+N:\github\Workers\obj\Debug\Workers.pdb

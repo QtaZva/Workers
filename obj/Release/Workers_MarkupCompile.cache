@@ -4,11 +4,11 @@
 winexe
 C#
 .cs
-N:\github\Workers\obj\Debug\
+N:\github\Workers\obj\Release\
 Workers
 none
 false
-DEBUG;TRACE
+TRACE
 N:\github\Workers\App.xaml
 62113903363
 

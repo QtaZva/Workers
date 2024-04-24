@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-N:\github\Workers\obj\Debug\
+C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\obj\Debug\
 Workers
 none
 false
 DEBUG;TRACE
-N:\github\Workers\App.xaml
+C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\App.xaml
 62113903363
 
 17-984571584
-13-1310406943
+14543731984
 Dictionary.xaml;MainWindow.xaml;View\WindowEmployee.xaml;View\WindowNewEmployee.xaml;View\WindowNewRole.xaml;View\WindowRole.xaml;
 
-True
+False
 

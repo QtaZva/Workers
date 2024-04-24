@@ -35,3 +35,6 @@ N:\github\Workers\obj\Debug\Workers_MarkupCompile.cache
 N:\github\Workers\obj\Debug\Workers_MarkupCompile.lref
 N:\github\Workers\obj\Debug\Workers.exe
 N:\github\Workers\obj\Debug\Workers.pdb
+C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\bin\Debug\Newtonsoft.Json.dll
+C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\bin\Debug\Newtonsoft.Json.xml
+C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\obj\Debug\Workers.csproj.CopyComplete

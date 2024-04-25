@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Windows;
 using Workers.Helper;
+using Workers.Model;
 using Workers.View;
 
 namespace Workers
@@ -15,7 +16,8 @@ namespace Workers
             : base("name=CompanyEntities")
         {
         }
-        
 
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Person> Persons { get; set; }
     }
 }

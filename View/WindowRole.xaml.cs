@@ -64,31 +64,5 @@ namespace Workers.View
                 "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-        private void btnEdit_Click(object sender, RoutedEventArgs e)
-        {
-            WindowNewRole wnRole = new WindowNewRole
-            {
-                Title = "Редактирование должности",
-                Owner = this
-            };
-            Role role = lvRole.SelectedItem as Role;
-            if (role != null)
-            {
-                Role tempRole = role.ShallowCopy();
-                wnRole.DataContext = tempRole;
-                if (wnRole.ShowDialog() == true)
-                {
-                    // сохранение данных
-                    role.NameRole = tempRole.NameRole;
-                    lvRole.ItemsSource = null;
-                    lvRole.ItemsSource = vmRole.ListRole;
-                }
-            }
-            else
-            {
-                MessageBox.Show("Необходимо выбрать должность для редактированния",
-                "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-        }
     }
 }

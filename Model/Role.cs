@@ -11,13 +11,8 @@ namespace Workers.Model
     /// <summary>
     /// класс должность сотрудника
     /// </summary>
-    public class Role : INotifyPropertyChanged
+    public class Role
     {
-        /// <summary>
-        /// класс должность сотрудника
-        /// </summary>
-        public class Role
-        {
             /// <summary>
             /// код должности
             /// </summary>
@@ -37,4 +32,3 @@ namespace Workers.Model
 
         }
     }
-}

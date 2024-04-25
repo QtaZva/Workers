@@ -38,3 +38,8 @@ N:\github\Workers\obj\Debug\Workers.pdb
 C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\bin\Debug\Newtonsoft.Json.dll
 C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\bin\Debug\Newtonsoft.Json.xml
 C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\obj\Debug\Workers.csproj.CopyComplete
+C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\bin\Debug\EntityFramework.dll
+C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\bin\Debug\EntityFramework.xml
+C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\qtazv\OneDrive\Рабочий стол\Учеба\!МДК 02.02 ИСРПО\Работы\Workers\Workers\bin\Debug\ru\EntityFramework.resources.dll

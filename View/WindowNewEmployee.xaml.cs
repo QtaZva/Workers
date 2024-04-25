@@ -42,5 +42,9 @@ namespace Workers.View
             }
         }
 
+        private void CbRole_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

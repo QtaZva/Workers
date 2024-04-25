@@ -18,6 +18,29 @@ namespace Workers.ViewModel
 {
     public class PersonViewModel : INotifyPropertyChanged
     {
+        public PersonViewModel()
+        {
+            ListPerson = new ObservableCollection<Person>();
+            ListPerson = GetPersons();
+        }
+        private ObservableCollection<Person> GetPersons()
+        {
+            using (var context = new CompanyEntities())
+            {
+                var query = from per in context.Persons
+                .Include("Role")
+                            orderby per.LastName
+                            select per;
+                if (query.Count() != 0)
+                {
+                    foreach (var p in query)
+                    {
+                        ListPerson.Add(p);
+                    }
+                }
+            }
+            return ListPerson;
+        }
         readonly string path = @"C:\Users\Alex\source\Project\WpfApplDemo2018_Json\WpfApplDemo2018\DataModels\ Person.json";
         string _jsonPersons = String.Empty;
         public string Error { get; set; }
@@ -49,23 +72,6 @@ namespace Workers.ViewModel
                 Error = "Ошибка записи json файла /n" + e.Message;
             }
         }
-
-        private PersonDpo selectedPersonDpo;
-        /// <summary>
-        /// выделенные в списке данные по сотруднику 
-        /// </summary>
-        public PersonDpo SelectedPersonDpo
-        {
-            get { return selectedPersonDpo; }
-            set
-            {
-                selectedPersonDpo = value;
-                OnPropertyChanged("SelectedPersonDpo");
-            }
-        }
-        /// <summary>
-        /// коллекция данных по сотрудникам
-        /// </summary>
         public ObservableCollection<Person> ListPerson { get; set; } =
        new ObservableCollection<Person>();
         public ObservableCollection<PersonDpo> ListPersonDpo
@@ -143,7 +149,7 @@ namespace Workers.ViewModel
         /// <summary>
         /// добавление сотрудника
         /// </summary>
-        private RelayCommand addPerson;
+        private RelayCommand _addPerson;
         /// <summary>
         /// добавление сотрудника
         /// </summary>
@@ -151,101 +157,139 @@ namespace Workers.ViewModel
         {
             get
             {
-                return addPerson ??
-                (addPerson = new RelayCommand(obj =>
+                return _addPerson ??
+                (_addPerson = new RelayCommand(obj =>
                 {
-                WindowNewEmployee wnPerson = new WindowNewEmployee
-                {
-                    Title = "Новый сотрудник"
-                };
-                // формирование кода нового собрудника
-                int maxIdPerson = MaxId() + 1;
-                PersonDpo per = new PersonDpo
-                {
-                    Id = maxIdPerson,
-                    Birthday = DateTime.Now
-                };
-                    wnPerson.DataContext = per;
-                    if (wnPerson.ShowDialog() == true)
+                    Person newPerson = new Person
                     {
-                        Role r = (Role)wnPerson.CbRole.SelectedValue;
-                        per.RoleName = r.NameRole;
-                        ListPersonDpo.Add(per);
-                        Person p = new Person();
-                        p = p.CopyFromPersonDpo(per);
-                        ListPerson.Add(p);
-                        SaveChanges(ListPerson);
+                        Birthday = DateTime.Now
+                    };
+                    WindowNewEmployee wnPerson = new WindowNewEmployee
+                    {
+                        Title = "Новый сотрудник",
+                        DataContext = newPerson
+                    };
+                    wnPerson.ShowDialog();
+                    if (wnPerson.DialogResult == true)
+                    {
+                        using (var context = new CompanyEntities())
+                        {
+                            try
+                {
+                                Person ord = context.Persons.Add(newPerson);
+                                context.SaveChanges();
+                                ListPerson.Clear();
+                                ListPerson = GetPersons();
+                            }
+                catch (Exception ex)
+                            {
+                                MessageBox.Show("\nОшибка добавления данных!\n" +
+                ex.Message, "Предупреждение");
+                            }
+                        }
                     }
                 }, (obj) => true));
             }
         }
+
         #endregion
         #region EditPerson
         /// команда редактирования данных по сотруднику
-        private RelayCommand editPerson;
+        private RelayCommand _editPerson;
         public RelayCommand EditPerson
         {
             get
             {
-                return editPerson ??
-                (editPerson = new RelayCommand(obj =>
+                return _editPerson ??
+                (_editPerson = new RelayCommand(obj =>
                 {
+                    Person editPerson = SelectedPerson;
                 WindowNewEmployee wnPerson = new WindowNewEmployee()
                 {
                     Title = "Редактирование данных сотрудника",
+                    DataContext = editPerson
                 };
-                PersonDpo personDpo = SelectedPersonDpo;
-                PersonDpo tempPerson = new PersonDpo();
-                tempPerson = personDpo.ShallowCopy();
-                wnPerson.DataContext = tempPerson;
-
-                //wnPerson.CbRole.ItemsSource = new ListRole();
-                if (wnPerson.ShowDialog() == true)
-                {
-                    // сохранение данных в оперативной памяти
-                    // перенос данных из временного класса в класс отображения 
-                    // данных 
-                    Role r = (Role)wnPerson.CbRole.SelectedValue;
-                    personDpo.RoleName = r.NameRole;
-                    personDpo.FirstName = tempPerson.FirstName;
-                    personDpo.LastName = tempPerson.LastName;
-                    personDpo.Birthday = tempPerson.Birthday;
-                    // перенос данных из класса отображения данных в класс Person
-                    FindPerson finder = new FindPerson(personDpo.Id);
-                    List<Person> listPerson = ListPerson.ToList();
-                    Person p = listPerson.Find(new Predicate<Person>(finder.PersonPredicate));
-                    p = p.CopyFromPersonDpo(personDpo);
-                    SaveChanges(ListPerson);
+                    wnPerson.ShowDialog();
+                    if (wnPerson.DialogResult == true)
+                    {
+                        using (var context = new CompanyEntities())
+                        {
+                            Person person = context.Persons.Find(editPerson.Id);
+                            if (person != null)
+                            {
+                                if (person.RoleId != editPerson.RoleId)
+                                    person.RoleId = editPerson.RoleId;
+                                if (person.FirstName != editPerson.FirstName)
+                                    person.FirstName = editPerson.FirstName;
+                                if (person.LastName != editPerson.LastName)
+                                    person.LastName = editPerson.LastName;
+                                if (person.Birthday != editPerson.Birthday)
+                                    person.Birthday = editPerson.Birthday;
+                                try
+                                {
+                                    context.SaveChanges();
+                                    ListPerson.Clear();
+                                    ListPerson = GetPersons();
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show("\nОшибка редактирования данных!\n"
+                    + ex.Message, "Предупреждение");
+                                }
+                            }
+                        }
                     }
-                }, (obj) => SelectedPersonDpo != null && ListPersonDpo.Count > 0));
+                    else
+                    {
+                        ListPerson.Clear();
+                        ListPerson = GetPersons();
+                    }
+                }, (obj) => SelectedPerson != null && ListPerson.Count >
+               0));
             }
         }
+
         #endregion
         #region DeletePerson
         /// команда удаления данных по сотруднику
-        private RelayCommand deletePerson;
+        private RelayCommand _deletePerson;
         public RelayCommand DeletePerson
         {
             get
             {
-                return deletePerson ??
-                (deletePerson = new RelayCommand(obj =>
+                return _deletePerson ??
+                (_deletePerson = new RelayCommand(obj =>
                 {
-                    PersonDpo person = SelectedPersonDpo;
-                    MessageBoxResult result = MessageBox.Show("Удалить данные по сотруднику: \n" + person.LastName + " " + person.FirstName,"Предупреждение", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                    if (result == MessageBoxResult.OK)
+                    Person delPerson = SelectedPerson;
+                    using (var context = new CompanyEntities())
                     {
-                        // удаление данных в списке отображения данных
-                        ListPersonDpo.Remove(person);
-                        // удаление данных в списке классов ListPerson<Person>
-                        Person per = new Person();
-                        per = per.CopyFromPersonDpo(person);
-                        ListPerson.Remove(per);
-                        SaveChanges(ListPerson);
+                        // Поиск в контексте удаляемого автомобиля
+                        Person person = context.Persons.Find(delPerson.Id);
+                        if (person != null)
+                        {
+                            MessageBoxResult result = MessageBox.Show("Удалить данные по сотруднику: \nФамилия: " + person.LastName + "\nИмя: " + person.FirstName,
+            "Предупреждение", MessageBoxButton.OKCancel);
+                            if (result == MessageBoxResult.OK)
+                            {
+                                try
+                                {
+                                    context.Persons.Remove(person);
+                                    context.SaveChanges();
+                                    ListPerson.Remove(delPerson);
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show("\nОшибка удаления данных!\n" +
+                    ex.Message, "Предупреждение");
+                                }
+                            }
+                        }
                     }
-                }, (obj) => SelectedPersonDpo != null && ListPersonDpo.Count > 0));
+                }, (obj) => SelectedPerson != null && ListPerson.Count >
+               0));
             }
         }
+
         #endregion
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")

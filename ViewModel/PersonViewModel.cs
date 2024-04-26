@@ -24,7 +24,7 @@ namespace Workers.ViewModel
             ListPerson = new ObservableCollection<Person>();
             ListPerson = GetPersons();
         }
-        private ObservableCollection<Person> GetPersons()
+        public ObservableCollection<Person> GetPersons()
         {
             using (var context = new CompanyEntities())
             {

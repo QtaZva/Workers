@@ -101,7 +101,7 @@ namespace Workers.ViewModel
                     Role role = SelectedRole;
                     using (var context = new CompanyEntities())
                     {
-                        // Поиск в контексте удаляемого автомобиля
+                        // Поиск в контексте удаляемого сотрудника
                         Role delRole = context.Roles.Find(role.Id);
                         if (delRole != null)
                         {
